@@ -45,7 +45,14 @@ public class Audio {
 }
 '@
 
+#Examples:
+
 #[Audio]::Mute = ![Audio]::Mute
 #[Audio]::Mute
 #[Audio]::Volume
 #[Audio]::Volume = 0.75
+
+#for (;;) {
+#    [Audio]::Mute
+#    Start-Sleep -Seconds 3
+#}
