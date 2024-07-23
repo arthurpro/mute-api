@@ -3,6 +3,7 @@ package sh
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"fmt"
 	"log"
 	"os/exec"
@@ -54,7 +55,8 @@ func PowershellOutput(command string) (error, string, string) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	cmd := exec.Command("powershell.exe", command)
+	cmd := exec.Command("powershell.exe", "-WindowStyle", "Hidden", command)
+	//cmd := exec.Command("powershell.exe", command)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 
@@ -77,10 +79,11 @@ func PowershellOutputWithDir(command, dir string) (error, string, string) {
 	return err, stdout.String(), stderr.String()
 }
 
-func PowershellChan(ch chan string, command string) (error, string) {
+func PowershellChan(ctx context.Context, ch chan string, command string) (error, string) {
 	var stderr bytes.Buffer
 
-	cmd := exec.Command("powershell.exe", command)
+	cmd := exec.CommandContext(ctx, "powershell.exe", "-WindowStyle", "Hidden", command)
+	//cmd := exec.Command("powershell.exe", command)
 
 	stdout, _ := cmd.StdoutPipe()
 
